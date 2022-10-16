@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="<%=title%>">
+    <meta name="description" content="Track the stats of <%=item.misc[0].value%>">
+    <meta property="twitter:title" content="<%=title%>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="../../../logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="../../../logo.png">
+    <meta property="og:description" content="Track the stats of <%=item.misc[0].value%> on MGCounts">
+    <meta property="twitter:description" content="Track the stats of <%=item.misc[0].value%> on MGCounts">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../odometer.css">
+    <script src="../../../../odometer.js" defer></script>
+    <title>
+        <%=title%>
+    </title>
+</head>
+
+<body>
+    <div id="main">
+        <% if (img=='round' ) { %>
+            <img id="img" src="<%=item.misc[1].value%>"
+                style="float: left; border-radius: 50%; height: 100px; width: 100px;">
+            <% } else { %>
+                <img id="img" src="<%=item.misc[1].value%>"
+                    style="float: left; border-radius: 15px; height: 100px; width: 175px;">
+                <% } %>
+                    <h2 id="name" style="font-family: 'Roboto', sans-serif; font-size: 35px; margin-top: 0px;">
+                        <%=item.misc[0].value%>
+                    </h2>
+                    <h1 id="count" class="odometer"
+                        style="font-family: 'Roboto', sans-serif; font-size: 55px; margin-top: -35px;">
+                        <%=item.stats[num].value%>
+                    </h1>
+    </div>
+</body>
+<%- include('./js/embed.ejs') %>
+
+</html>

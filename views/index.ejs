@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="MGCounts">
+    <meta name="description" content="Track stats of stuff MGCounts">
+    <meta property="twitter:title" content="MGCounts">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="./logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="./logo.png">
+    <meta property="og:description" content="Track stats of stuff MGCounts">
+    <meta property="twitter:description" content="Track stats of stuff MGCounts">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../odometer.css">
+    <script src="../../odometer.js" defer></script>
+    <script src="../../highstock.js"></script>
+    <script id="dsq-count-scr" src="//mgcounts.disqus.com/count.js" async></script>
+    <title>
+        MGCounts
+    </title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #141414;
+            color: #FFF;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 3vw;
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        #title {
+            font-family: 'Roboto', sans-serif;
+            margin-top: 0px;
+            font-size: 6vw;
+            background-image: linear-gradient(to right, red, rgb(255, 0, 255), pink, pink, rgb(255, 0, 255), red);
+            color: #FFF;
+            -webkit-text-stroke-width: 0.2vw;
+            -webkit-text-stroke-color: #000;
+            scale: 1.1;
+            width: 100vw;
+            margin: 0px;
+        }
+
+        #grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(30%, 1fr));
+            text-align: center;
+            width: 95vw;
+            padding-top: 15px;
+            margin: auto;
+        }
+
+        .grid2 {
+            text-align: center;
+            margin-top: 0px;
+        }
+
+        .grid-item {
+            border: solid #FFF;
+            width: 100%;
+
+        }
+
+        .items {
+            margin-top: 0px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #FFF;
+            -webkit-text-stroke-width: 0.5px;
+            -webkit-text-stroke-color: #000;
+        }
+
+        h1:hover {
+            scale: 1.1;
+        }
+
+        html body center div a h1 {
+            font-size: 8vh;
+        }
+
+        h1 {
+            font-size: 2vw;
+            font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1 id="title">MGCounts</h1>
+        <div class="grid2" style="margin-top: 10px; font-size: 30px; border: solid #FFF; width: 90%; height: 6vw">
+            <a href="https://returnyoutubesubscribers.github.io/">
+                <h1 style="margin-top: 0px; font-size: 5vw">Return YouTube Subscribers</h1>
+            </a>
+        </div>
+        <div class="grid2" style="margin-top: 10px; font-size: 30px; border: solid #FFF; width: 40%; height: 6vw">
+            <a href="./compare">
+                <h1 style="margin-top: 0px; font-size: 5vw">Compare Mode</h1>
+            </a>
+        </div>
+    </center>
+    <div id="grid">
+        <div class="grid-item">
+            <h2>YouTube</h2>
+            <div class="items">
+                <a href="./youtube/est">
+                    <h1>YouTube Live Estimated Subscriber Count</h1>
+                </a>
+                <a href="./youtube/user">
+                    <h1>YouTube Live Subscriber Count</h1>
+                </a>
+                <a href="./youtube/video">
+                    <h1>YouTube Live Video Stats</h1>
+                </a>
+                <a href="./youtube/live">
+                    <h1>YouTube Live Stream Stats</h1>
+                </a>
+                <a href="./youtube/comment">
+                    <h1>YouTube Live Comment Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>MrBeast</h2>
+            <div class="items">
+                <a href="./mrbeast/teamseas/stats">
+                    <h1>TeamSeas Live Stats</h1>
+                </a>
+                <a href="./mrbeast/teamtrees/stats">
+                    <h1>TeamTrees Live Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>StoryFire</h2>
+            <div class="items">
+                <a href="./storyfire/user">
+                    <h1>StoryFire Channel Stats</h1>
+                </a>
+                <a href="./storyfire/video">
+                    <h1>StoryFire Video Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Roblox</h2>
+            <div class="items">
+                <a href="./roblox/group">
+                    <h1>Roblox Group Stats</h1>
+                </a>
+                <a href="./roblox/user">
+                    <h1>Roblox User Stats</h1>
+                </a>
+                <a href="./roblox/game">
+                    <h1>Roblox Game Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Gab</h2>
+            <div class="items">
+                <a href="./gab/user">
+                    <h1>Gab User Stats</h1>
+                </a>
+                <a href="./gab/post">
+                    <h1>Gab Post Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Reddit</h2>
+            <div class="items">
+                <a href="./reddit/user">
+                    <h1>Reddit User Stats</h1>
+                </a>
+                <a href="./reddit/subreddit">
+                    <h1>SubReddit Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Discord</h2>
+            <div class="items">
+                <a href="./discord/server">
+                    <h1>Discord Server Stats</h1>
+                </a>
+                <a href="./discord/mee6">
+                    <h1>Mee6 User Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Global Clickers</h2>
+            <div class="items">
+                <a href="./globalClicker/stats">
+                    <h1>Global Clicker Stats</h1>
+                </a>
+            </div>
+        </div>
+        <div class="grid-item">
+            <h2>Rumble</h2>
+            <div class="items">
+                <a href="./rumble/user">
+                    <h1>Rumble User Stats</h1>
+                </a>
+                <a href="./rumble/video">
+                    <h1>Rumble Video Stats</h1>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+<br>
+<center>
+    <div id="disqus_thread" style="width: 80%;"></div>
+</center>
+<script>
+    var disqus_config = function () {
+        this.page.url = "https://MGCounts.github.io";
+        this.page.identifier = "https://MGCounts.github.io";
+    };
+    (function () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://MGCounts.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+</html>

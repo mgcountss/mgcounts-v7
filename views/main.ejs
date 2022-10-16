@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="<%=title%>">
+    <meta name="description" content="Track the stats of <%=item.misc[0].value%>">
+    <meta property="twitter:title" content="<%=title%>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="../../logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="../../logo.png">
+    <meta property="og:description" content="Track the stats of <%=item.misc[0].value%> on MGCounts">
+    <meta property="twitter:description" content="Track the stats of <%=item.misc[0].value%> on MGCounts">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../odometer.css">
+    <script src="../../odometer.js" defer></script>
+    <script src="../../highstock.js"></script>
+    <title>
+        <%=title%>
+    </title>
+    <%- include('./css/styles.ejs') %>
+</head>
+
+<body>
+    <div id="nav">
+        <a href="../../">
+            <img src="../../logo.png" alt="MGCounts">
+        </a>
+    </div>
+    <br>
+    <div id="main">
+        <div id="banner" style="background-image: url('<%=item.misc[2].value%>');">
+            <img class="<%=img%>" id="img" src="<%=item.misc[1].value%>">
+        </div>
+        <h2 id="name">
+            <%=item.misc[0].value%>
+        </h2>
+        <h1 id="count" class="odometer">0</h1>
+        <h2 id="label">Loading</h2>
+        <% if (path=="/youtube/est/" ) { %>
+            <h4 class="label2">Thanks <a href="https://livecounts.xyz">livecounts.xyz</a>!</h4>
+            <%}%>
+                <hr>
+                <div class="sideCounts">
+                    <% for (let q=1; q < item.stats.length+1; q++) { %>
+                        <% if (q==item.stats.length) {%>
+                            <div>
+                                <h2 class="label" id="label_<%=q%>">
+                                    Goal
+                                </h2>
+                                <h1 id="count_<%=q%>" class="odometer side">0</h1>
+                            </div>
+                            <%} else {%>
+                                <div onclick="mainCount('<%=q%>')">
+                                    <h2 class="label" id="label_<%=q%>">Loading</h2>
+                                    <h1 class="odometer side" id="count_<%=q%>">0</h1>
+                                </div>
+                                <%}%>
+                                    <% } %>
+                </div>
+                <center>
+                    <hr>
+                    <div class="chart" id="chart"></div>
+                    <hr>
+                    <input id="embed" readonly="" value="https://mgcounts.com/embeds<%=path%><%=id%>"
+                        onclick="embed()">
+                    <br>
+                    <%- include('./js/settings.ejs') %>
+                        <%- include('./js/analytics.ejs') %>
+                </center>
+    </div>
+</body>
+<%- include('./js/getGoal.ejs') %>
+    <%- include('./js/script.ejs') %>
+
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="MGCounts - Search">
+    <meta name="description" content="MGCounts - Search">
+    <meta property="twitter:title" content="MGCounts - Search">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="../../logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="../../logo.png">
+    <meta property="og:description" content="MGCounts - Search">
+    <meta property="twitter:description" content="MGCounts - Search">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../odometer.css">
+    <script src="../../odometer.js" defer></script>
+    <script src="../../highstock.js"></script>
+    <title>MGCounts - Search</title>
+    <style>
+        body {
+            background-color: #242425;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            color: #FFF;
+        }
+
+        #nav {
+            float: left;
+            background-color: #000;
+            position: relative;
+            display: flex;
+            width: 100%;
+            padding-top: 0.2vw;
+        }
+
+        #nav>a>img {
+            width: 15vw;
+            height: 2.3vw;
+        }
+
+        #main {
+            margin: auto;
+            margin-top: 3vw;
+            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #name {
+            font-size: 3vw;
+            margin-top: 0vw;
+            font-weight: bold;
+        }
+
+        #button {
+            font-size: 3vw;
+        }
+
+        #search1, #search2,
+        select {
+            font-size: 3vw;
+            width: 80%;
+        }
+
+        #button:hover {
+            cursor: pointer;
+        }
+
+        .card {
+            width: 100%;
+            border-radius: 0.25vw;
+            box-shadow: 0.05vw 0.1vw 0.1vw 0.1vw #000;
+            margin-top: 0.25vw;
+            height: 100%;
+        }
+
+        .name {
+            font-size: 1vw;
+            font-weight: bold;
+            margin-top: 0.25vw;
+            color: #FFF;
+        }
+
+        .round {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            background-color: #FFF;
+            margin-top: 0.5vw;
+        }
+
+        .rect {
+            width: 4vw;
+            height: 2.5vw;
+            background-color: #FFF;
+            margin-top: 0.25vw;
+        }
+
+        #results1, #results2 {
+            width: 100%;
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr)
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nav">
+        <a href="../../">
+            <img src="../../logo.png" alt="MGCounts">
+        </a>
+    </div>
+    <br>
+    <div style="background-color: #1a1a1a;">
+        <h1 id="name">Search</h1>
+        <div id="main">
+            <div>
+                <input type="text" id="search1" placeholder="Search">
+                <br>
+                <select id="select1">
+                    <% for (var i=0; i < types.length; i++) { %>
+                        <option value="<%= types[i] %>">
+                            <%= types[i].toUpperCase() %>
+                        </option>
+                        <% } %>
+                </select>
+                <br>
+                <br>
+                <button id="button" onclick="search1()">Search</button>
+                <hr>
+                <div id="results1"></div>
+            </div>
+            <div>
+                <input type="text" id="search2" placeholder="Search">
+                <br>
+                <select id="select2">
+                    <% for (var i=0; i < types.length; i++) { %>
+                        <option value="<%= types[i] %>">
+                            <%= types[i].toUpperCase() %>
+                        </option>
+                        <% } %>
+                </select>
+                <br>
+                <br>
+                <button id="button" onclick="search2()">Search</button>
+                <hr>
+                <div id="results2"></div>
+            </div>
+        </div>
+        <button style="font-size: 5vw;" onclick="compare()">Compare!</button>
+        <hr>
+    </div>
+</body>
+<script>
+    let type1 = null;
+    let type2 = null;
+    function search1() {
+        var search = document.getElementById("search1").value;
+        var type = document.getElementById("select1").value;
+        var results = document.getElementById("results1");
+        results.innerHTML = "";
+        if (search == "") {
+            return;
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/" + type + "/search", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({
+            search: search
+        }));
+        xhr.onload = function() {
+            document.getElementById("results1").innerHTML = "";
+            type1 = type;
+            var data = JSON.parse(this.responseText).results;
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                var card = document.createElement("div");
+                card.className = "card";
+                card.setAttribute('id', data[i].id)
+                card.onclick = function() {
+                    select1(this);
+                }
+                var name = document.createElement("div");
+                name.className = "name";
+                name.innerHTML = data[i].name;
+                card.appendChild(name);
+                var img = document.createElement("img");
+                img.src = data[i].icon;
+                img.className = data[i].image;
+                card.appendChild(img);
+                results.appendChild(card);
+            }
+        }
+        xhr.send();
+    }
+    function search2() {
+        var search = document.getElementById("search2").value;
+        var type = document.getElementById("select2").value;
+        var results = document.getElementById("results2");
+        results.innerHTML = "";
+        if (search == "") {
+            return;
+        }
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "/api/" + type + "/search", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify({
+            search: search
+        }));
+        xhr.onload = function() {
+            document.getElementById("results2").innerHTML = "";
+            type2 = type;
+            var data = JSON.parse(this.responseText).results;
+            console.log(data);
+            for (var i = 0; i < data.length; i++) {
+                var card = document.createElement("div");
+                card.className = "card";
+                card.setAttribute('id', data[i].id)
+                card.onclick = function() {
+                    select2(this);
+                }
+                var name = document.createElement("div");
+                name.className = "name";
+                name.innerHTML = data[i].name;
+                card.appendChild(name);
+                var img = document.createElement("img");
+                img.src = data[i].icon;
+                img.className = data[i].image;
+                card.appendChild(img);
+                results.appendChild(card);
+            }
+        }
+        xhr.send();
+    }
+
+    let selected1 = null;
+    let selected2 = null;
+    let selDiv1 = null;
+    let selDiv2 = null;
+    function select1(idk) {
+        if (selDiv1 != null) {
+            selDiv1.style.border = "none";
+        }
+        selected1 = idk.getAttribute('id')
+        selDiv1 = idk;
+        idk.style.border = "solid 1px red";
+    }
+    function select2(idk) {
+        if (selDiv2 != null) {
+            selDiv1.style.border = "none";
+        }
+        selected2 = idk.getAttribute('id')
+        selDiv2 = idk;
+        idk.style.border = "solid 1px red";
+    }
+
+    function compare() {
+        if (selected1 == null || selected2 == null) {
+            alert("Please select two items to compare!");
+            return;
+        }
+        if (type1 == null, type2 == null) {
+            alert("Please find two topics to compare!");
+            return;
+        }
+        console.log("/compare/" + type1 + "/" + selected1 + "/" + type2 + "/" + selected2+"")
+        window.location.href = "/compare/" + type1 + "/" + selected1 + "/" + type2 + "/" + selected2+"";
+    }
+</script>
+
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="MGCounts - Search">
+    <meta name="description" content="MGCounts - Search">
+    <meta property="twitter:title" content="MGCounts - Search">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="../../logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="../../logo.png">
+    <meta property="og:description" content="MGCounts - Search">
+    <meta property="twitter:description" content="MGCounts - Search">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="stylesheet" href="../../odometer.css">
+    <script src="../../odometer.js" defer></script>
+    <script src="../../highstock.js"></script>
+    <title>MGCounts - Search</title>
+    <style>
+        body {
+            background-color: #242425;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            color: #FFF;
+        }
+
+        #nav {
+            float: left;
+            background-color: #000;
+            position: relative;
+            display: flex;
+            width: 100%;
+            padding-top: 0.2vw;
+        }
+
+        #nav>a>img {
+            width: 15vw;
+            height: 2.3vw;
+        }
+
+        #main {
+            margin: auto;
+            margin-top: 3vw;
+            width: 90%;
+            background-color: #1a1a1a;
+        }
+
+        #name {
+            font-size: 3vw;
+            margin-top: 0vw;
+            font-weight: bold;
+        }
+
+        #button {
+            font-size: 3vw;
+        }
+
+        #search {
+            font-size: 3vw;
+            width: 80%;
+        }
+
+        #button:hover {
+            cursor: pointer;
+        }
+
+        .card {
+            width: 100%;
+            border-radius: 0.5vw;
+            box-shadow: 0.1vw 0.1vw 0.1vw 0.1vw #000;
+            margin-top: 0.5vw;
+            height: 100%;
+        }
+
+        .name {
+            font-size: 2vw;
+            font-weight: bold;
+            margin-top: 0.5vw;
+            color: #FFF;
+        }
+
+        .round {
+            width: 8vw;
+            height: 8vw;
+            border-radius: 50%;
+            background-color: #FFF;
+            margin-top: 0.5vw;
+        }
+
+        .rect {
+            width: 8vw;
+            height: 5vw;
+            background-color: #FFF;
+            margin-top: 0.5vw;
+        }
+
+        #results {
+            width: 100%;
+            text-align: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr)
+        }
+    </style>
+</head>
+
+<body>
+    <div id="nav">
+        <a href="../../">
+            <img src="../../logo.png" alt="MGCounts">
+        </a>
+    </div>
+    <br>
+    <div id="main">
+        <h1 id="name">
+            <%=platform.toUpperCase()%>
+                <%=type.toUpperCase()%> SEARCH
+        </h1>
+        <% if (platform=="discord" && type=="server" ) {%>
+            <input id="search" placeholder="Server Invite Code">
+            <% } else if (platform=="discord" && type=="mee6" ) {%>
+                <input id="search" placeholder="Server ID">
+                <%} else if (platform == "youtube" && type == "comment") {%>
+                    <input id="search" placeholder="Comment ID">
+                    <%} else {%>
+                        <input id="search" placeholder="Search">
+                        <%}%>
+                    <br>
+                    <button id="button" onclick="search()">Search</button>
+                    <br>
+                    <center>
+                        <div id="results"></div>
+                    </center>
+                    <br>
+    </div>
+</body>
+<script>
+    function search() {
+        fetch('/api/<%=platform%>/<%=type%>/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                search: document.getElementById('search').value
+            })
+        }).then(response => response.json())
+            .then(data => {
+                if (data.success == false) {
+                    alert('No results found or some error occured.');
+                } else {
+                    document.getElementById('results').innerHTML = '';
+                    for (var i = 0; i < data.results.length; i++) {
+                        document.getElementById('results').innerHTML += '<center><div class="card"><a class="bruh" href="/<%=platform%>/<%=type2%>/' + data.results[i].id + '" target="_blank"><img class="' + data.results[i].image + '" src="' + data.results[i].icon + '"><br><h3 class="name">' + data.results[i].name + '</h2></a></div></center>';
+                    }
+                }
+            })
+    }
+</script>
+
+</html>

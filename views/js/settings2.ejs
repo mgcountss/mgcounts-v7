@@ -1,0 +1,316 @@
+<div class="settings" id="settings">
+    <div>
+        <h2 class="setting_title">Background Color</h2>
+        <input id="backgroundColor" type="color" value="" onchange="load()" class="setting_input">
+    </div>
+    <div>
+        <h2 class="setting_title">Counter Background Color</h2>
+        <input id="counterBackgroundColor" type="color" value="" onchange="load()" class="setting_input">
+    </div>
+    <div>
+        <h2 class="setting_title">Main Counter Color</h2>
+        <input id="mainCounterColor" type="color" value="" onchange="load()" class="setting_input">
+    </div>
+    <div>
+        <h2 class="setting_title">Side Counters Color</h2>
+        <input id="sideColor" type="color" value="" onchange="load()" class="setting_input">
+    </div>
+    <div>
+        <h2 class="setting_title">Odometer Up Color</h2>
+        <input id="upColor" type="color" value="" onchange="load()" class="setting_input">
+    </div>
+    <div>
+        <h2 class="setting_title">Odometer Down Color</h2>
+        <input id="downColor" type="color" value="" onchange="load()" class="setting_input">
+    </div>
+    <div>
+        <h2 class="setting_title">Odometer Speed (seconds)</h2>
+        <input id="speed" type="number" value="" onchange="load()" class="setting_input2">
+    </div>
+    <div>
+        <h2 class="setting_title">Graph Color</h2>
+        <input id="graphColor" type="color" value="" onchange="load()" class="setting_input">
+    </div>
+    <div>
+        <h2 class="setting_title">Graph Type</h2>
+        <input id="graphType" type="text" value="" placeholder="line,spline,area,splinearea" onchange="load()"
+            class="setting_input2">
+    </div>
+    <div>
+        <h2 class="setting_title">Graph Max Length</h2>
+        <input id="graphLength" type="text" value="" placeholder="In update points." onchange="load()"
+            class="setting_input2">
+    </div>
+    <div>
+        <h2 class="setting_title">Reset Settings</h2>
+        <button onclick="reset()" class="setting_input3">Reset</button>
+    </div>
+</div>
+<script>
+    let config = {
+        "backgroundColor": localStorage.getItem('backgroundColor') || "#141414",
+        "counterBackgroundColor": localStorage.getItem('counterBackgroundColor') || "#1a1a1a",
+        "mainCounterColor": localStorage.getItem('mainCounterColor') || "#FFFFFF",
+        "sideColor": localStorage.getItem('sideColor') || "#FFFFFF",
+        "upColor": localStorage.getItem('upColor') || "#FFFFFF",
+        "downColor": localStorage.getItem('downColor') || "#FFFFFF",
+        "speed": localStorage.getItem('speed') || "1.5",
+        "graphColor": localStorage.getItem('graphColor') || "#FFFFFF",
+        "graphLength": localStorage.getItem('graphLength') || "1500",
+        "graphType": localStorage.getItem('graphType') || "line"
+    }
+
+    let chart1 = new Highcharts.chart({
+        chart: {
+            renderTo: 'chart1',
+            type: config.graphType,
+            zoomType: 'x',
+            backgroundColor: 'transparent',
+            plotBorderColor: 'transparent'
+        },
+        title: {
+            text: ' '
+        },
+        credits: {
+            enabled: false,
+        }, xAxis: {
+            type: 'datetime',
+            visible: false
+        },
+        yAxis: {
+            visible: false,
+        },
+        plotOptions: {
+            series: {
+                threshold: null,
+                fillOpacity: 0.50
+            },
+            area: {
+                fillOpacity: 0.50
+            }
+        },
+        series: [{
+            showInLegend: false,
+            name: '<%=item1.stats[0].name%>',
+            marker: { enabled: false },
+            color: 'white',
+            lineColor: config.graphColor,
+            lineWidth: 2
+        }]
+    });
+
+    let chart2 = new Highcharts.chart({
+        chart: {
+            renderTo: 'chart2',
+            type: config.graphType,
+            zoomType: 'x',
+            backgroundColor: 'transparent',
+            plotBorderColor: 'transparent'
+        },
+        title: {
+            text: ' '
+        },
+        credits: {
+            enabled: false,
+        }, xAxis: {
+            type: 'datetime',
+            visible: false
+        },
+        yAxis: {
+            visible: false,
+        },
+        plotOptions: {
+            series: {
+                threshold: null,
+                fillOpacity: 0.50
+            },
+            area: {
+                fillOpacity: 0.50
+            }
+        },
+        series: [{
+            showInLegend: false,
+            name: '<%=item2.stats[0].name%>',
+            marker: { enabled: false },
+            color: 'white',
+            lineColor: config.graphColor,
+            lineWidth: 2
+        }]
+    });
+
+    function load2() {
+        document.getElementById('backgroundColor').value = config.backgroundColor
+        document.getElementById('counterBackgroundColor').value = config.counterBackgroundColor
+        document.getElementById('mainCounterColor').value = config.mainCounterColor
+        document.getElementById('sideColor').value = config.sideColor
+        document.getElementById('upColor').value = config.upColor
+        document.getElementById('downColor').value = config.downColor
+        document.getElementById('speed').value = config.speed
+        document.getElementById('graphColor').value = config.graphColor
+        document.getElementById('graphLength').value = config.graphLength
+        document.getElementById('graphType').value = config.graphType
+        document.querySelectorAll("style").forEach(e => {
+            e.innerHTML += `.odometer.odometer-auto-theme.odometer-animating-up .odometer-ribbon-inner,
+        .odometer.odometer-theme-minimal.odometer-animating-up .odometer-ribbon-inner {
+            color: ${config.upColor} !important;
+        }`
+        })
+        document.querySelectorAll("style").forEach(e => {
+            e.innerHTML += `.odometer.odometer-auto-theme.odometer-animating-down .odometer-ribbon-inner,
+        .odometer.odometer-theme-minimal.odometer-animating-down .odometer-ribbon-inner {
+            color: ${config.downColor} !important;
+        }`
+        })
+        document.querySelectorAll("style").forEach(e => {
+            e.innerHTML += `.odometer.odometer-auto-theme.odometer-animating-up .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-up .odometer-ribbon-inner {
+            -webkit-transition: -webkit-transform ${config.odometerSpeed}s;
+            -moz-transition: -moz-transform ${config.odometerSpeed}s;
+            -ms-transition: -ms-transform ${config.odometerSpeed}s;
+            -o-transition: -o-transform ${config.odometerSpeed}s;
+            transition: transform ${config.odometerSpeed}s;
+          }`
+        })
+        document.querySelectorAll("style").forEach(e => {
+            e.innerHTML += ` .odometer.odometer-auto-theme.odometer-animating-down.odometer-animating .odometer-ribbon-inner, .odometer.odometer-theme-default.odometer-animating-down.odometer-animating .odometer-ribbon-inner {
+            -webkit-transition: -webkit-transform ${config.odometerSpeed}s;
+            -moz-transition: -moz-transform ${config.odometerSpeed}s;
+            -ms-transition: -ms-transform ${config.odometerSpeed}s;
+            -o-transition: -o-transform ${config.odometerSpeed}s;
+            transition: transform ${config.odometerSpeed}s;
+            -webkit-transform: translateY(0);
+            -moz-transform: translateY(0);
+            -ms-transform: translateY(0);
+            -o-transform: translateY(0);
+            transform: translateY(0);
+          }`
+        })
+        for (let i = 0; i < document.querySelectorAll(".label").length; i++) {
+            document.querySelectorAll(".label")[i].style.color = config.sideColor
+            document.querySelectorAll(".side")[i].style.color = config.sideColor
+        }
+        document.getElementById("name1").style.color = config.mainCounterColor
+        document.getElementById("count1").style.color = config.mainCounterColor
+        document.getElementById("label1").style.color = config.mainCounterColor
+        document.getElementById("name2").style.color = config.mainCounterColor
+        document.getElementById("count2").style.color = config.mainCounterColor
+        document.getElementById("label2").style.color = config.mainCounterColor
+        document.body.style.backgroundColor = config.backgroundColor
+        document.getElementById('main').style.backgroundColor = config.counterBackgroundColor
+        document.getElementById('main2').style.backgroundColor = config.counterBackgroundColor
+        document.getElementById('main3').style.backgroundColor = config.counterBackgroundColor
+        chart1 = new Highcharts.chart({
+            chart: {
+                renderTo: 'chart1',
+                type: config.graphType,
+                zoomType: 'x',
+                backgroundColor: 'transparent',
+                plotBorderColor: 'transparent'
+            },
+            title: {
+                text: ' '
+            },
+            credits: {
+                enabled: false,
+            }, xAxis: {
+                type: 'datetime',
+                visible: false
+            },
+            yAxis: {
+                visible: false,
+            },
+            plotOptions: {
+                series: {
+                    threshold: null,
+                    fillOpacity: 0.25
+                },
+                area: {
+                    fillOpacity: 0.25
+                }
+            },
+            series: [{
+                showInLegend: false,
+                name: '<%=item1.stats[0].name%>',
+                marker: { enabled: false },
+                color: 'white',
+                lineColor: config.graphColor,
+                lineWidth: 2,
+                data: chart1.series[0].userOptions.data
+            }]
+        });
+        chart2 = new Highcharts.chart({
+            chart: {
+                renderTo: 'chart2',
+                type: config.graphType,
+                zoomType: 'x',
+                backgroundColor: 'transparent',
+                plotBorderColor: 'transparent'
+            },
+            title: {
+                text: ' '
+            },
+            credits: {
+                enabled: false,
+            }, xAxis: {
+                type: 'datetime',
+                visible: false
+            },
+            yAxis: {
+                visible: false,
+            },
+            plotOptions: {
+                series: {
+                    threshold: null,
+                    fillOpacity: 0.25
+                },
+                area: {
+                    fillOpacity: 0.25
+                }
+            },
+            series: [{
+                showInLegend: false,
+                name: '<%=item2.stats[0].name%>',
+                marker: { enabled: false },
+                color: 'white',
+                lineColor: config.graphColor,
+                lineWidth: 2,
+                data: chart2.series[0].userOptions.data
+            }]
+        });
+   
+    }
+
+    function load() {
+        localStorage.setItem('backgroundColor', document.getElementById('backgroundColor').value)
+        localStorage.setItem('counterBackgroundColor', document.getElementById('counterBackgroundColor').value)
+        localStorage.setItem('mainCounterColor', document.getElementById('mainCounterColor').value)
+        localStorage.setItem('sideColor', document.getElementById('sideColor').value)
+        localStorage.setItem('upColor', document.getElementById('upColor').value)
+        localStorage.setItem('downColor', document.getElementById('downColor').value)
+        localStorage.setItem('speed', document.getElementById('speed').value)
+        localStorage.setItem('graphColor', document.getElementById('graphColor').value)
+        localStorage.setItem('graphLength', document.getElementById('graphLength').value)
+        localStorage.setItem('graphType', document.getElementById('graphType').value)
+        config.backgroundColor = document.getElementById('backgroundColor').value
+        config.counterBackgroundColor = document.getElementById('counterBackgroundColor').value
+        config.mainCounterColor = document.getElementById('mainCounterColor').value
+        config.sideColor = document.getElementById('sideColor').value
+        config.upColor = document.getElementById('upColor').value
+        config.downColor = document.getElementById('downColor').value
+        config.speed = document.getElementById('speed').value
+        config.graphColor = document.getElementById('graphColor').value
+        config.graphLength = document.getElementById('graphLength').value
+        config.graphType = document.getElementById('graphType').value
+        load2()
+    }
+    load2()
+
+    function reset() {
+        let ask = confirm("Are you sure you want to reset the settings?")
+        if (ask) {
+            localStorage.clear();
+            location.reload()
+        } else {
+            return
+        }
+    }
+</script>

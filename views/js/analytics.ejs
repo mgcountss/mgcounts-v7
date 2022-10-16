@@ -1,0 +1,82 @@
+<hr>
+<center>
+    <script>
+        charts = []
+    </script>
+    <% if (chart && chart.length > 0) { %>
+    <div id="analytics" style="width: 100%; height: 100%;">
+        <% for (let q=0; q < chart.length; q++) { %>
+            <div id="chart_<%=q%>" class="chart chart_<%=q%>"></div>
+            <script>
+                var data = '<%=(chart[q])%>'
+                data = data.toString().match(/[^,]+,[^,]+/g);
+                data = data.map(function (x) {
+                    let m = x.split(',');
+                    m[1] = parseInt(m[1]);
+                    return m;
+                });
+                charts.push(new Highcharts.chart({
+                    chart: {
+                        renderTo: 'chart_<%=q%>',
+                        type: config.graphType,
+                        zoomType: 'x',
+                        backgroundColor: 'transparent',
+                        plotBorderColor: 'transparent'
+                    },
+                    title: {
+                        text: ' '
+                    },
+                    credits: {
+                        enabled: false,
+                    }, xAxis: {
+                        type: 'datetime',
+                        visible: false
+                    },
+                    yAxis: {
+                        visible: false,
+                    },
+                    plotOptions: {
+                        series: {
+                            threshold: null,
+                            fillOpacity: 0.50
+                        },
+                        area: {
+                            fillOpacity: 0.50
+                        }
+                    },
+                    series: [{
+                        showInLegend: false,
+                        name: "<%=chartNames.toString().split(',')[q]%>",
+                        marker: { enabled: false },
+                        color: 'white',
+                        lineColor: config.graphColor,
+                        lineWidth: 2,
+                        data: data
+                    }]
+                }));
+            </script>
+            <% } %>
+    </div>
+    <hr>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <% for (let q=0; q < chart.length; q++) { %>
+                    <th scope="col"><%=chartNames.toString().split(',')[q]%></th>
+                <% } %>
+            </tr>
+        </thead>
+        <tbody>
+            <%table = table.reverse()%>
+            <% for (let q=0; q < table.length; q++) { %>
+                    <tr>
+                        <th scope="row"><%=table[q][0].value.toString()%></th>
+                        <% for (let i=1; i < table[0].length; i++) { %>
+                            <td><%=table[q][i].value.toLocaleString()%></td>
+                        <% } %>
+                    </tr>
+            <% } %>
+        </tbody>
+    <% } %>
+</center>

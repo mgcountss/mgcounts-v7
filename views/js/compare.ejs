@@ -1,0 +1,62 @@
+<script>
+    let id1 = "<%=id1%>";
+    let id2 = "<%=id2%>";
+    let count1 = 0;
+    let count2 = 0;
+    function update() {
+        fetch('/api<%=path1%><%=id1%>')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.misc && data.misc.length > 0) {
+                        if (document.getElementById('name1').innerHTML != data.misc[0].value) {
+                            document.getElementById('name1').innerHTML = data.misc[0].value;
+                        }
+                        if (document.getElementById('img1').src != data.misc[1].value) {
+                            document.getElementById('img1').src = data.misc[1].value;
+                        }
+                        if (document.getElementById('banner1').src != data.misc[2].value) {
+                            document.getElementById('banner1').src = data.misc[2].value;
+                        }
+                    }
+                    if (document.getElementById('count1').innerHTML != data.stats[0].value) {
+                        document.getElementById('count1').innerHTML = data.stats[0].value;
+                        count1 = data.stats[0].value;
+                    }
+                    if (chart1.series[0].points.length == config.graphLength) chart1.series[0].data[0].remove();
+                    chart1.series[0].addPoint([Date.now(), Math.floor(data.stats[0].value)])
+                }
+            })
+        fetch('/api<%=path2%><%=id2%>')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    if (data.misc && data.misc.length > 0) {
+                        if (document.getElementById('name2').innerHTML != data.misc[0].value) {
+                            document.getElementById('name2').innerHTML = data.misc[0].value;
+                        }
+                        if (document.getElementById('img2').src != data.misc[1].value) {
+                            document.getElementById('img2').src = data.misc[1].value;
+                        }
+                        if (document.getElementById('banner2').src != data.misc[2].value) {
+                            document.getElementById('banner2').src = data.misc[2].value;
+                        }
+                    }
+                    if (document.getElementById('count2').innerHTML != data.stats[0].value) {
+                        document.getElementById('count2').innerHTML = data.stats[0].value;
+                        count2 = data.stats[0].value;
+                    }
+                    if (chart2.series[0].points.length == config.graphLength) chart2.series[0].data[0].remove();
+                    chart2.series[0].addPoint([Date.now(), Math.floor(data.stats[0].value)])
+                }
+            })
+            document.getElementById('diff').innerHTML = count1 - count2;
+    }
+    setInterval(update, 2000);
+    update();
+
+    function embed() {
+        document.getElementById('embed').select();
+        document.execCommand('copy');
+    }
+</script>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="title" content="<%=title%>">
+    <meta name="description" content="Track <%=item1.misc[0].value%> vs <%=item2.misc[0].value%> on MGCounts">
+    <meta property="twitter:title" content="<%=title%>">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="../../../../../../logo.png">
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="../../../../../../logo.png">
+    <meta property="og:description" content="Track <%=item1.misc[0].value%> vs <%=item2.misc[0].value%> on MGCounts">
+    <meta property="twitter:description"
+        content="Track <%=item1.misc[0].value%> vs <%=item2.misc[0].value%> on MGCounts">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" href="../../../../../../favicon.ico">
+    <link rel="stylesheet" href="../../../../../../odometer.css">
+    <script src="../../../../../../odometer.js" defer></script>
+    <script src="../../../../../../highstock.js"></script>
+    <title>
+        <%=title%>
+    </title>
+    <%- include('./css/compare.ejs') %>
+</head>
+
+<body>
+    <div id="nav">
+        <a href="../../../../../../">
+            <img src="../../../../../../logo.png" alt="MGCounts">
+        </a>
+    </div>
+    <br>
+    <div id="main">
+        <div>
+            <div id="banner1" style="background-image: url('<%=item1.misc[2].value%>');">
+                <img class="<%=img1%>" id="img1" src="<%=item1.misc[1].value%>">
+            </div>
+            <h2 id="name1">
+                <%=item1.misc[0].value%>
+            </h2>
+            <h1 id="count1" class="odometer">
+                <%=item1.stats[0].value%>
+            </h1>
+            <h2 id="label1">
+                <%=item1.stats[0].name%>
+            </h2>
+            <% if (path1=="/youtube/est/" ) { %>
+                <h4 class="label2">Thanks <a href="https://livecounts.xyz">livecounts.xyz</a>!</h4>
+                <%}%>
+        </div>
+        <div>
+            <div id="banner2" style="background-image: url('<%=item2.misc[2].value%>');">
+                <img class="<%=img2%>" id="img2" src="<%=item2.misc[1].value%>">
+            </div>
+            <h2 id="name2">
+                <%=item2.misc[0].value%>
+            </h2>
+            <h1 id="count2" class="odometer">
+                <%=item2.stats[0].value%>
+            </h1>
+            <h2 id="label2">
+                <%=item2.stats[0].name%>
+            </h2>
+            <% if (path2=="/youtube/est/" ) { %>
+                <h4 class="label2">Thanks <a href="https://livecounts.xyz">livecounts.xyz</a>!</h4>
+                <%}%>
+        </div>
+    </div>
+    <hr style="width: 90%; margin-top: 0px;">
+    <div id="main3">
+        <center>
+            <div class="gap">
+                <h1 id="diff" class="odometer">
+                    <%=(item1.stats[0].value - item2.stats[0].value)%>
+                </h1>
+                <h2 id="dtext">Difference</h2>
+            </div>
+        </center>
+    </div>
+    <div id="main2">
+        <center>
+            <hr>
+            <div class="chart1 chart" id="chart1"></div>
+        </center>
+        <center>
+            <hr>
+            <div class="chart2 chart" id="chart2"></div>
+        </center>
+    </div>
+    <hr style="width: 90%; margin-top: 0px;">
+    <center>
+        <br>
+        <%- include('./js/settings2.ejs') %>
+    </center>
+    </div>
+</body>
+<%- include('./js/compare.ejs') %>
+
+</html>

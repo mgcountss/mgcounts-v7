@@ -1,0 +1,6 @@
+function getGoal(num) {
+    if (num < 10) return 10; let x1 = Math.floor(Math.log10(num)); let x2 = Math.ceil(num / 10 ** x1); let x3 = x2 * 10 ** x1; let goal = x3 - num;
+    return goal;
+};
+
+module.exports = getGoal;
